@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Klotski Visualizer</title>
+    <style>
+        body {
+            overflow-y: hidden;
+            width: 99%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h3{
+            margin-bottom: 50px;
+        }
+
+        button{
+            margin-top: 50px;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(4, 50px);
+            grid-template-rows: repeat(5, 50px);
+            gap: 5px;
+        }
+
+        .cell {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ccc;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .B{
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Klotski Solver Visualizer</h1>
+    <h3>With Brute Force Algorithm</h3>
+    <div id="boardContainer"></div>
+    <button id="solve">Start Solution</button>
+
+    <script src="klotskiVisualizer.js"></script>
+    <script>
+        let currentMove = 0;
+
+        // Referencia a contenedor y botón
+        const boardContainer = document.getElementById("boardContainer");
+        const nextMoveButton = document.getElementById("solve");
+
+        // Función para pintar un tablero
+        function drawBoard(board) {
+            boardContainer.innerHTML = ""; // Limpiar el tablero actual
+            boardContainer.className = "board";
+
+            board.forEach((row) => {
+                row.forEach((cell) => {
+                    const cellDiv = document.createElement("div");
+                    cellDiv.className = `cell ${cell}`;
+                    cellDiv.textContent = cell === " " ? "" : cell;
+                    boardContainer.appendChild(cellDiv);
+                });
+            });
+        }
+
+        
+        drawBoard(klotskiMoves[0]);
+        
+
+        function delay(ms) {
+            return new Promise((resolve) => setTimeout(resolve, ms));
+        }
+
+        nextMoveButton.addEventListener("click", async () => {
+            while (currentMove < klotskiMoves.length) {
+                drawBoard(klotskiMoves[currentMove]);
+                currentMove++;
+                await delay(10);
+            }
+            alert("Solved!");
+        });
+    </script>
+</body>
+
+</html>
